@@ -15,6 +15,5 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
         -v /var/run/docker.sock:/var/run/docker.sock:ro \
         -v /sys:/rootfs/sys:ro \
         -v /etc:/rootfs/etc:ro \
-        --link influxdb \
         telegraf
 fi
