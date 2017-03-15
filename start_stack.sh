@@ -11,7 +11,7 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
         docker rm $INSTANCE
     fi
     docker run -d --name influxdb \
-        -p 8083:8083 -p 8086:8086 -p 25827:25826/udp \
+        -p 38083:8083 -p 38086:8086 -p 25827:25826/udp \
         -v $PWD/influxdb:/var/lib/influxdb \
         -v $PWD/influxdb/influxdb.conf:/etc/influxdb/influxdb.conf:ro \
         -v $PWD/collectd/types.db:/usr/share/collectd/types.db:ro \
