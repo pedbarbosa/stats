@@ -31,16 +31,16 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
     fi
     docker run -d --name telegraf \
         --hostname=$HOSTNAME \
-        -e "HOST_PROC=/rootfs/proc" \
         -e "HOST_SYS=/rootfs/sys" \
         -e "HOST_ETC=/rootfs/etc" \
         -v $PWD/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro \
         -v /var/run/docker.sock:/var/run/docker.sock:ro \
         -v /sys:/rootfs/sys:ro \
-        -v /proc:/roots/proc:ro \
         -v /etc:/rootfs/etc:ro \
         --link influxdb \
         telegraf
+        #-e "HOST_PROC=/rootfs/proc" \
+        #-v /proc:/roots/proc:ro \
 fi
 
 echo "==> Updating local grafana docker image"
