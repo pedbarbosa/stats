@@ -31,6 +31,7 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
     fi
     docker run -d --name telegraf \
         -v $PWD/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro \
+        --link influxdb \
         telegraf
 fi
 
@@ -46,7 +47,7 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
         docker rm $INSTANCE
     fi
     docker run -d --name grafana \
-        -p 3000:3000 \
+        -p 30000:3000 \
         -v $PWD/grafana_etc:/etc/grafana \
         -v $PWD/grafana_lib:/var/lib/grafana \
         -e "GF_INSTALL_PLUGINS=grafana-piechart-panel" \
