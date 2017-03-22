@@ -12,8 +12,8 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
     fi
     docker run -d --name grafana \
         -p 30000:3000 \
-        -v $PWD/grafana_etc:/etc/grafana \
-        -v $PWD/grafana_lib:/var/lib/grafana \
+        -v $PWD/etc/grafana:/etc/grafana \
+        -v $PWD/var/lib/grafana:/var/lib/grafana \
         -e "GF_INSTALL_PLUGINS=grafana-piechart-panel" \
         --link influxdb \
         grafana/grafana

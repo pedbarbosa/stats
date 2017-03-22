@@ -14,7 +14,7 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
         -e "HOST_SYS=/rootfs/sys" \
         -e "HOST_PROC=/rootfs/proc" \
         -e "HOST_ETC=/rootfs/etc" \
-        -v $PWD/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro \
+        -v $PWD/etc/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro \
         -v /var/run/docker.sock:/var/run/docker.sock:ro \
         -v /sys:/rootfs/sys:ro \
         -v /proc:/roots/proc:ro \

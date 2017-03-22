@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "Function not in use at the moment"
+exit 1
+
 echo "==> Installing or update local influxdb docker image"
 docker pull influxdb
 
