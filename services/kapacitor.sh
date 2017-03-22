@@ -14,5 +14,6 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
         -p 9092:9092 \
         -v /opt/$INSTANCE:/var/lib/$INSTANCE \
         --link influxdb \
+        --restart=always \
         $INSTANCE
 fi

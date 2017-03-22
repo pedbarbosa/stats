@@ -14,5 +14,6 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
         -p 10000:10000 \
         -v /opt/cronograph:/var/lib/cronograph \
         --link influxdb \
+        --restart=always \
         cronograph
 fi

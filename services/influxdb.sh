@@ -13,8 +13,8 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
     docker run -d --name influxdb \
         -p 38083:8083 -p 38086:8086 -p 25827:25826/udp \
         -v /opt/influxdb:/var/lib/influxdb \
-        -v $PWD/etc/influxdb/influxdb.conf:/etc/influxdb/influxdb.conf:ro \
-        -v $PWD/etc/collectd/types.db:/usr/share/collectd/types.db:ro \
+        -v $( dirname `pwd`)/etc/influxdb/influxdb.conf:/etc/influxdb/influxdb.conf:ro \
+        -v $( dirname `pwd`)/etc/collectd/types.db:/usr/share/collectd/types.db:ro \
         --restart=always \
         influxdb:latest
 fi
