@@ -12,12 +12,10 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
     docker run -d --name telegraf \
         --hostname=$HOSTNAME \
         -e "HOST_SYS=/rootfs/sys" \
-        -e "HOST_PROC=/rootfs/proc" \
         -e "HOST_ETC=/rootfs/etc" \
         -v $( dirname `pwd`)/etc/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro \
         -v /var/run/docker.sock:/var/run/docker.sock:ro \
         -v /sys:/rootfs/sys:ro \
-        -v /proc:/roots/proc:ro \
         -v /etc:/rootfs/etc:ro \
         --link influxdb \
         --restart=always \
