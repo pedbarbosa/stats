@@ -12,7 +12,7 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
     fi
     docker run -d --name $INSTANCE \
         -p 9092:9092 \
-        -v $PWD/$INSTANCE:/var/lib/$INSTANCE \
+        -v /opt/$INSTANCE:/var/lib/$INSTANCE \
         --link influxdb \
         $INSTANCE
 fi

@@ -12,7 +12,7 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
     fi
     docker run -d --name cronograph \
         -p 10000:10000 \
-        -v $PWD/cronograph:/var/lib/cronograph \
+        -v /opt/cronograph:/var/lib/cronograph \
         --link influxdb \
         cronograph
 fi
