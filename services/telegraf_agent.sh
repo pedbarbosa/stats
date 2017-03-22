@@ -13,6 +13,9 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
         --hostname=$HOSTNAME \
         -e "HOST_SYS=/rootfs/sys" \
         -e "HOST_ETC=/rootfs/etc" \
+        -e EXP_ENVIRONMENT=$EXP_ENVIRONMENT \
+        -e AWS_REGION=$AWS_REGION \
+        -e CLUSTER_NAME=$CLUSTER_NAME \
         -v $( dirname `pwd`)/etc/telegraf/telegraf_agent.conf:/etc/telegraf/telegraf.conf:ro \
         -v /var/run/docker.sock:/var/run/docker.sock:ro \
         -v /sys:/rootfs/sys:ro \
