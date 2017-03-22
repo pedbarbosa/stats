@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
-echo "==> Updating local telegraf docker image"
-docker pull telegraf
-
 echo "==> Checking telegraf instance"
+TELEGRAF_HOSTNAME=ewe-ecs-agent.$EXP_ENVIRONMENT.$AWS_REGION.$CLUSTER_NAME.$HOSTNAME
 INSTANCE=telegraf
 if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
     echo "==> No $INSTANCE instance found, starting..."
@@ -10,18 +8,13 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
         docker rm $INSTANCE
     fi
     docker run -d --name telegraf \
-        --hostname=$HOSTNAME \
+        --hostname=$TELEGRAF_HOSTNAME \
         -e "HOST_SYS=/rootfs/sys" \
         -e "HOST_ETC=/rootfs/etc" \
-        -e EXP_ENVIRONMENT=$EXP_ENVIRONMENT \
-        -e AWS_REGION=$AWS_REGION \
-        -e CLUSTER_NAME=$CLUSTER_NAME \
-        -v $( dirname `pwd`)/etc/telegraf/telegraf_agent.conf:/etc/telegraf/telegraf.conf:ro \
+        -e OUTPUTS_INFLUXDB_URLS='["http://10.38.95.206:8086"]' \
         -v /var/run/docker.sock:/var/run/docker.sock:ro \
         -v /sys:/rootfs/sys:ro \
         -v /etc:/rootfs/etc:ro \
         --restart=always \
-        telegraf
-        #-e "HOST_PROC=/rootfs/proc" \
-        #-v /proc:/roots/proc:ro \
+        pedbarbosa/docker-telegraf:1.2.1
 fi
