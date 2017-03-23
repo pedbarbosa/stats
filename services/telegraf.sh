@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
-echo "==> Updating local telegraf docker image"
-docker pull telegraf
+if [ -z $STACKNAME ]; then
+    TELEGRAF_HOSTNAME=$HOSTNAME
+else
+    TELEGRAF_HOSTNAME=$STACKNAME.$HOSTNAME
+fi
 
-echo "==> Checking telegraf instance"
 INSTANCE=telegraf
 if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
     echo "==> No $INSTANCE instance found, starting..."
@@ -10,16 +12,14 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
         docker rm $INSTANCE
     fi
     docker run -d --name telegraf \
-        --hostname=$HOSTNAME \
-        -e "HOST_SYS=/rootfs/sys" \
-        -e "HOST_ETC=/rootfs/etc" \
-        -v $( dirname `pwd`)/etc/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro \
+        --hostname="$TELEGRAF_HOSTNAME" \
+        -e HOST_ETC=/rootfs/etc \
+        -e HOST_SYS=/rootfs/sys \
+        -e OUTPUTS_INFLUXDB_URLS='["http://ecs-influxdb:8086"]' \
+        -e OUTPUTS_GRAPHITE_PREFIX="collectd_metrics" \
         -v /var/run/docker.sock:/var/run/docker.sock:ro \
-        -v /sys:/rootfs/sys:ro \
         -v /etc:/rootfs/etc:ro \
-        --link influxdb \
+        -v /sys:/rootfs/sys:ro \
         --restart=always \
-        telegraf
-        #-e "HOST_PROC=/rootfs/proc" \
-        #-v /proc:/roots/proc:ro \
+        pedbarbosa/docker-telegraf:1.2.1a
 fi
