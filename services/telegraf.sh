@@ -21,5 +21,5 @@ if [ ! "$(docker ps -q -f name=$INSTANCE)" ]; then
         -v /etc:/rootfs/etc:ro \
         -v /sys:/rootfs/sys:ro \
         --restart=always \
-        pedbarbosa/docker-telegraf:1.2.1a
+        pedbarbosa/docker-telegraf:1.2.1b
 fi
