@@ -1,3 +1,9 @@
 # IntelliJ
 .idea/
 stats.iml
+
+# Grafana database
+grafana_lib/
+
+# InfluxDB database
+influxdb/
